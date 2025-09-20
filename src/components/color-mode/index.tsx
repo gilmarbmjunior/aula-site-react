@@ -1,0 +1,86 @@
+import { useColorMode } from "@/hooks/useColors";
+import type { IconButtonProps, SpanProps } from "@chakra-ui/react";
+import { ClientOnly, IconButton, Skeleton, Span } from "@chakra-ui/react";
+import type { ThemeProviderProps } from "next-themes";
+import { ThemeProvider } from "next-themes";
+import * as React from "react";
+import { LuMoon, LuSun } from "react-icons/lu";
+
+export interface ColorModeProviderProps extends ThemeProviderProps {}
+
+export function ColorModeProvider(props: ColorModeProviderProps) {
+  return (
+    <ThemeProvider
+      disableTransitionOnChange
+      attribute={"class"}
+      defaultTheme={"light"}
+      {...props}
+    />
+  );
+}
+
+export function ColorModeIcon() {
+  const { colorMode } = useColorMode();
+  return colorMode === "dark" ? <LuMoon /> : <LuSun />;
+}
+
+interface ColorModeButtonProps extends Omit<IconButtonProps, "aria-label"> {}
+
+export const ColorModeButton = React.forwardRef<
+  HTMLButtonElement,
+  ColorModeButtonProps
+>(function ColorModeButton(props, ref) {
+  const { toggleColorMode } = useColorMode();
+  return (
+    <ClientOnly fallback={<Skeleton boxSize={"8"} />}>
+      <IconButton
+        ref={ref}
+        aria-label={"Toggle color mode"}
+        size={"sm"}
+        variant={"ghost"}
+        onClick={toggleColorMode}
+        {...props}
+        css={{
+          _icon: {
+            width: "5",
+            height: "5",
+          },
+        }}
+      >
+        <ColorModeIcon />
+      </IconButton>
+    </ClientOnly>
+  );
+});
+
+export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
+  function LightMode(props, ref) {
+    return (
+      <Span
+        ref={ref}
+        className={"chakra-theme light"}
+        color={"fg"}
+        colorPalette={"gray"}
+        colorScheme={"light"}
+        display={"contents"}
+        {...props}
+      />
+    );
+  }
+);
+
+export const DarkMode = React.forwardRef<HTMLSpanElement, SpanProps>(
+  function DarkMode(props, ref) {
+    return (
+      <Span
+        ref={ref}
+        className={"chakra-theme dark"}
+        color={"fg"}
+        colorPalette={"gray"}
+        colorScheme={"dark"}
+        display={"contents"}
+        {...props}
+      />
+    );
+  }
+);

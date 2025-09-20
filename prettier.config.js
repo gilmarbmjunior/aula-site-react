@@ -12,7 +12,7 @@ export default {
   proseWrap: "preserve",
   quoteProps: "as-needed",
   semi: true,
-  singleAttributePerLine: false,
+  singleAttributePerLine: true,
   singleQuote: false,
   tabWidth: 2,
   trailingComma: "es5",

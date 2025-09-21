@@ -121,7 +121,7 @@ type ColorScaleObject = {
   [name: string]: ColorSteps;
 };
 
-export function generateColorScale(baseHexList: ColorScale[], steps: number): ColorScaleObject {
+export function generateColorScale(baseHexList: ColorScale[], type: "hex" | "rgb", steps: number): ColorScaleObject {
   const colorSteps: number[] = Array.from({ length: steps * 2 + 1 }, (_, i) => {
     return 1000 - i * Math.floor(1000 / (steps * 2));
   });
@@ -134,7 +134,7 @@ export function generateColorScale(baseHexList: ColorScale[], steps: number): Co
 
     colorSteps.forEach((step, index) => {
       const colorHex = scale[index] || scale[scale.length - 1];
-      obj[name][step] = { value: colorHex.toLowerCase() };
+      obj[name][step] = { value: type === "hex" ? colorHex.toLowerCase() : hexToRGB(colorHex.toLowerCase()) };
     });
   });
 
@@ -167,6 +167,7 @@ console.log(
       { hex: "#6b7280", name: "gray" },
       { hex: "#64748b", name: "slate" },
     ],
+    "hex",
     10
   )
 );

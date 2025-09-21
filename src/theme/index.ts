@@ -1,4 +1,4 @@
-import { generateColorScale } from "@/colors/generated_colors";
+import { generateColorScale } from "@/utils/colors/generated_colors_scale";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
 const config = defineConfig({
@@ -29,6 +29,7 @@ const config = defineConfig({
           { hex: "#6b7280", name: "gray" },
           { hex: "#64748b", name: "slate" },
         ],
+        "hex",
         10
       ),
     },

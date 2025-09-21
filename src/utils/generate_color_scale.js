@@ -89,33 +89,51 @@ function generateColorScale(baseHex, steps = 10) {
 }
 
 // Gera o objeto completo no formato Tailwind
-function generateObjectColorScale(colorName, baseHex, steps = 10) {
+// Gera o objeto completo no formato Tailwind
+function generateObjectColorScale(baseHexList, steps = 10) {
   const colorSteps = [
     1000, 950, 900, 850, 800, 750, 700, 650, 600, 550, 500, 450, 400, 350, 300, 250, 200, 150, 100, 50,
   ];
 
-  const scale = generateColorScale(baseHex, steps);
-
   const obj = {};
 
-  colorSteps.forEach((step, index) => {
-    const hex = scale[index] || scale[scale.length - 1];
-    obj[step] = { value: hexToRGBString(hex) };
+  baseHexList.forEach(({ hex, name }) => {
+    const scale = generateColorScale(hex, steps);
+    obj[name] = {};
+
+    colorSteps.forEach((step, index) => {
+      const colorHex = scale[index] || scale[scale.length - 1];
+      obj[name][step] = { value: colorHex.toLowerCase() };
+    });
   });
 
-  return { [colorName]: obj };
-}
-
-function invert(color) {
-  const redInverted = Object.keys(color)
-    .sort((a, b) => b - a) // Ordena do maior para o menor
-    .reduce((acc, key) => {
-      acc[key] = red[key];
-      return acc;
-    }, {});
-
-  console.log(redInverted);
+  return obj;
 }
 
 // Exemplo de uso
-console.log(generateObjectColorScale("red", "#ef4444"));
+console.log(
+  generateObjectColorScale([
+    { hex: "#ef4444", name: "red" },
+    { hex: "#f97316", name: "orange" },
+    { hex: "#f59e0b", name: "amber" },
+    { hex: "#eab308", name: "yellow" },
+    { hex: "#84cc16", name: "lime" },
+    { hex: "#22c55e", name: "green" },
+    { hex: "#10b981", name: "emerald" },
+    { hex: "#14b8a6", name: "teal" },
+    { hex: "#06b6d4", name: "cyan" },
+    { hex: "#0ea5e9", name: "sky" },
+    { hex: "#3b82f6", name: "blue" },
+    { hex: "#6366f1", name: "indigo" },
+    { hex: "#8b5cf6", name: "violet" },
+    { hex: "#a855f7", name: "purple" },
+    { hex: "#d946ef", name: "fuchsia" },
+    { hex: "#ec4899", name: "pink" },
+    { hex: "#f43f5e", name: "rose" },
+    { hex: "#78716c", name: "stone" },
+    { hex: "#737373", name: "natural" },
+    { hex: "#71717a", name: "zinc" },
+    { hex: "#6b7280", name: "gray" },
+    { hex: "#64748b", name: "slate" },
+  ])
+);

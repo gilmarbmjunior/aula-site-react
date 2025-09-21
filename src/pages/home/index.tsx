@@ -9,7 +9,7 @@ function Home() {
       width={"100vw"}
     >
       <Box
-        bg={"rgb(234,88,12)"}
+        bg={"orange.500"}
         h={"56px"}
         position={"absolute"}
         w={"100%"}
